@@ -76,7 +76,7 @@
                                 DataTable Example
                             </div>
                             <div class="card-body">
-                                <table id="datatablesSimple">
+                                <table id="datatest">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -583,3 +583,18 @@
     </div>
 </div> --}}
 @endsection
+@push('after-script')
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="{{ url('/assets/assets/demo/chart-area-demo.js') }}"></script>
+<script src="{{ url('/assets/assets/demo/chart-bar-demo.js') }}"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> --}}
+<script>
+    // $(document).ready(function(){
+        $('#datatest').DataTable({
+            processing: true,
+            // serverSide: true,
+        });
+    // });
+</script>
+@endpush

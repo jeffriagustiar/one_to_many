@@ -23,4 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['admin']], function () {
     Route::get('/test', function (){ return "a";} );
+    Route::get('/crud',function () {
+        return view('pages.data');
+    })->name('crud');
 });
