@@ -28,11 +28,10 @@
                             <thead>
                                 <tr>
                                     <th>Name</a></th>
-                                    <th>Position</a></th>
-                                    <th>Office</a></th>
-                                    <th>Age</a></th>
-                                    <th>Start date</a></th>
-                                    <th>Salary</a></th></tr>
+                                    <th>Email</a></th>
+                                    <th>Level</a></th>
+                                    <th>Action</a></th>
+                                </tr>
                             </thead>
                         </table>
                     {{-- </div> --}}
@@ -42,7 +41,51 @@
 @endsection
 
 @push('after-script')
+
+
         <script>
-            var table = $('#datacrud').DataTable()
+
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                var datat = $('#datacrud').DataTable({
+                    processing: true,
+                    serverside: true,
+                    ajax: '/getdata',
+                    columns: [
+                        { data: 'name', name:'name' },
+                        { data: 'email', name:'email' },
+                        { data: 'level', name:'level' },
+                        { data: 'action', name:'action' },
+                    ]
+                });
+
+                $('body').on('click', '.deleteData', function(){
+                    var id = $(this).data("id");
+                    $.ajax({
+                        type: "DELETE",
+                        url: '/deletedata/'+id,
+                        success : function (data){
+                            datat.ajax.reload()
+                            console.log("success")
+                        },
+                        error: function (data){
+                            console.log("Error : ",data);
+                        }
+                    })
+                });
+
+                $('body').on('click', '.lookData', function(){
+                    var id = $(this).data("id");
+                    console.log(id);
+                });
+            });
+            
+            
+
         </script>
 @endpush

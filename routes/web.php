@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/crud',function () {
         return view('pages.data');
     })->name('crud');
+    Route::get('/getdata','UserController@index');
+    Route::DELETE('/deletedata/{id}','UserController@destroy');
 });
