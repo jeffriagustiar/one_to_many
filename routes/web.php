@@ -29,4 +29,5 @@ Route::group(['middleware' => ['admin']], function () {
     })->name('crud');
     Route::get('/getdata','UserController@index');
     Route::DELETE('/deletedata/{id}','UserController@destroy');
+    Route::POST('/adddata','UserController@store');
 });

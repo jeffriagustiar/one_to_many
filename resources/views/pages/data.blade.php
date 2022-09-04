@@ -21,6 +21,9 @@
                 <svg class="svg-inline--fa fa-table me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="table" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 32C483.3 32 512 60.65 512 96V416C512 451.3 483.3 480 448 480H64C28.65 480 0 451.3 0 416V96C0 60.65 28.65 32 64 32H448zM224 256V160H64V256H224zM64 320V416H224V320H64zM288 416H448V320H288V416zM448 256V160H288V256H448z"></path></svg><!-- <i class="fas fa-table me-1"></i> Font Awesome fontawesome.com -->
                 DataTable CRUD
             </div>
+            <div class="col-sm-4">
+                <a href="#" class="btn btn-primary" id="addData">Add Data</a>
+            </div>
             <div class="card-body">
                 {{-- <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns"> --}}
                     {{-- <div class="dataTable-container"> --}}
@@ -38,6 +41,62 @@
                 {{-- </div> --}}
             </div>
         </main>
+
+        <div class="modal fade" id="addDataModal" tabindex="-1" aria-labelledby="addData" aria-hidden="true">
+            <div class="modal-dialog modal-m modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addData">Add Data User</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="postData" name="postData" class="form-horizontal" >
+          
+                    <div class="mb-3 row">
+                      <label class="col-sm-2 control-label">Name</label>
+                      <div class="col-lg-12">
+                        <div class="input-group">
+                          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 control-label">Email</label>
+                        <div class="col-lg-12">
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="" >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mb-3 row">
+                          <label class="col-sm-2 control-label">Password</label>
+                          <div class="col-lg-12">
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="password" name="password" placeholder="Enter Password" value="" >
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-sm-2 control-label">Level</label>
+                            <div class="col-lg-12">
+                              <div class="input-group">
+                                <input type="text" class="form-control" id="level" name="level" placeholder="Enter Level" value="" >
+                              </div>
+                            </div>
+                          </div>
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Post</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
 @endsection
 
 @push('after-script')
@@ -78,6 +137,27 @@
                         }
                     })
                 });
+
+                $('#addData').click(function (){
+                    $('#addDataModal').modal('show');
+                });
+
+                $('#savedata').click(function (){
+                    $.ajax({
+                        data: $('#postData').serialize(),
+                        url: '/adddata',
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data){
+                            $('$postData').trigger("reset");
+                            $('$addDataModal').modal('hide');
+                            datat.ajax.reload();
+                        },
+                        error: function(data){
+                            console.log('Error: ',data);
+                        }
+                    })
+                })
 
                 $('body').on('click', '.lookData', function(){
                     var id = $(this).data("id");
