@@ -95,9 +95,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'level' => $request->level
+        ];
+
+        $update =  User::find($id);
+        $update->update($data);
+
+        return response()->json([
+            'msg' => 'success update'
+        ]);
     }
 
     /**

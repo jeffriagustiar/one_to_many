@@ -42,7 +42,7 @@
             </div>
         </main>
 
-        <div class="modal fade" id="addDataModal" tabindex="-1" aria-labelledby="addData" aria-hidden="true">
+        <div class="modal fade modalEdit" id="addDataModal" tabindex="-1" aria-labelledby="addData" aria-hidden="true">
             <div class="modal-dialog modal-m modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header">
@@ -50,12 +50,13 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="postData" name="postData" class="form-horizontal" >
+                  <form id="postData" name="postData" class="form-horizontal form" >
           
                     <div class="mb-3 row">
                       <label class="col-sm-2 control-label">Name</label>
                       <div class="col-lg-12">
                         <div class="input-group">
+                            <input type="hidden" name="id">
                           <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" >
                         </div>
                       </div>
@@ -90,7 +91,8 @@
                     
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Post</button>
+                      <button type="submit" class="btn btn-success btn-add" id="savedata" value="create">Save Post</button>
+                      <button type="submit" class="btn btn-primary btn-edit" id="savedataedit" value="create">Save Post</button>
                     </div>
                   </form>
                 </div>
@@ -110,6 +112,9 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
+                var modal = $('.modalEdit')
+                var form = $('.form')
 
                 var datat = $('#datacrud').DataTable({
                     processing: true,
@@ -140,6 +145,8 @@
 
                 $('#addData').click(function (){
                     $('#addDataModal').modal('show');
+                    $('#savedataedit').hide();
+                    $('#savedata').show();
                 });
 
                 $('#savedata').click(function (){
@@ -161,8 +168,41 @@
 
                 $('body').on('click', '.lookData', function(){
                     var id = $(this).data("id");
+                    modal.modal('show');
+                    $('#savedataedit').show();
+                    $('#savedata').hide();
+
+                    modal.find('.modal-title').text('Update Data');
+
+                    var data= datat.row($(this).parents('tr')).data()
+
+                    form.find('input[name="id"]').val(data.id)
+                    form.find('input[name="name"]').val(data.name)
+                    form.find('input[name="email"]').val(data.email)
+                    form.find('input[name="level"]').val(data.level)
+
                     console.log(id);
+                    console.log("test");
                 });
+
+                $('#savedataedit').click(function(){
+                    var id = form.find('input[name="id"]').val()
+                    $.ajax({
+                        type:"POST",
+                        data: form.serialize(),
+                        dataType: 'json',
+                        url: '/updatedata/'+id,
+                        success: function(data){
+                            form.trigger("reset");
+                            modal.modal('hide');
+                            datat.ajax.relod();
+                        },
+                        error: function(data){
+                            console.log(data);
+                        }
+                    })
+                })
+
             });
             
             

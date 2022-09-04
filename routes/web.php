@@ -30,4 +30,5 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/getdata','UserController@index');
     Route::DELETE('/deletedata/{id}','UserController@destroy');
     Route::POST('/adddata','UserController@store');
+    Route::POST('/updatedata/{id}','UserController@edit');
 });
