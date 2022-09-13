@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('dataUser' ,[CrudApiController::class, 'all']);//->middleware('apiAdmin');
+Route::post('register' ,[CrudApiController::class, 'register']);
