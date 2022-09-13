@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class CrudApiController extends Controller
@@ -37,6 +38,24 @@ class CrudApiController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $data
+        ]);
+    }
+
+    function login(Request $request){
+        $credensial = request(['email','password']);
+
+        if (!Auth::attempt($credensial)) {
+            return response()->json([
+                'status' => 500,
+                'msg' => 'Autentication Failed !!!'
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'access_token' => $request->password,
+            'token_type' => 'Bearer',
+            'msg' => $credensial
         ]);
     }
 }
