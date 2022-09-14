@@ -19,6 +19,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('dataUser' ,[CrudApiController::class, 'all']);//->middleware('apiAdmin');
+Route::middleware(['auth:sanctum'])->group(function(){
+    Route::get('dataUser' ,[CrudApiController::class, 'all']);
+    Route::post('logout' ,[CrudApiController::class, 'logout']);
+});
+
+// Route::group(['middleware',['auth:sanctum']],function(){
+//     Route::get('dataUser' ,[CrudApiController::class, 'all']);
+// });
+
 Route::post('register' ,[CrudApiController::class, 'register']);
 Route::post('login' ,[CrudApiController::class, 'login']);

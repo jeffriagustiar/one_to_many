@@ -51,11 +51,31 @@ class CrudApiController extends Controller
             ]);
         }
 
+        $user = User::where('email',$request->email)->first();
+        $a=Hash::check($request->password,$user->password ,[]);
+
+        if (! $a) {
+            return response()->json([
+                'status' => 500,
+                'msg' => 'Invalid Password'
+            ]);
+        }
+
+        $token = $user->createToken('authToken')->plainTextToken;
+
         return response()->json([
             'status' => 200,
-            'access_token' => $request->password,
+            'access_token' => $token,
             'token_type' => 'Bearer',
             'msg' => $credensial
+        ]);
+    }
+
+    function logout(){
+        auth()->user()->tokens()->delete();
+        return response()->json([
+            'status' => 200,
+            'msg' => 'berhasil dihapus'
         ]);
     }
 }
