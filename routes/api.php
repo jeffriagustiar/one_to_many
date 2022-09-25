@@ -29,4 +29,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
 // });
 
 Route::post('register' ,[CrudApiController::class, 'register']);
+Route::get('a' ,function(){
+    return response()->json(['status' => 200,'msg'=>'ada']);
+});
+Route::get('dataUser2' ,[CrudApiController::class, 'all']);
 Route::post('login' ,[CrudApiController::class, 'login']);
