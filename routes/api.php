@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CrudApiController;
+use App\Http\Controllers\API\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('dataUser' ,[CrudApiController::class, 'all']);
     Route::post('logout' ,[CrudApiController::class, 'logout']);
+    Route::post('addProduct',[ProductController::class,'add']);
+    Route::post('updateProduct',[ProductController::class,'update']);
+    Route::delete('deleteProduct',[ProductController::class,'delete']);
 });
+Route::get('product',[ProductController::class,'all']);
 
 // Route::group(['middleware',['auth:sanctum']],function(){
 //     Route::get('dataUser' ,[CrudApiController::class, 'all']);
