@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CrudApiController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +27,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('addProduct',[ProductController::class,'add']);
     Route::post('updateProduct',[ProductController::class,'update']);
     Route::delete('deleteProduct',[ProductController::class,'delete']);
+    Route::get('product',[ProductController::class,'all']);
+
+    Route::post('transaction',[TransactionController::class, 'transaction']);
+    Route::get('transaction',[TransactionController::class, 'all']);
 });
-Route::get('product',[ProductController::class,'all']);
 
 // Route::group(['middleware',['auth:sanctum']],function(){
 //     Route::get('dataUser' ,[CrudApiController::class, 'all']);

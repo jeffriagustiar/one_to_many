@@ -79,7 +79,7 @@ class ProductController extends Controller
     function all(Request $request){
         $id = $request->input('uuid');
         $limit = $request->input('limit');
-        $order = $request->input('order');
+        $order = ($request->input('order') == null) ? 'asc':$request->input('order');
 
         $data = Product::query();
         $a='';
